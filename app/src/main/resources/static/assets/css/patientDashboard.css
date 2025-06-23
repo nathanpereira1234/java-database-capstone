@@ -1,0 +1,127 @@
+/* This is the style sheet for the patientDashboard.html */
+/* ===============================
+   Reset & Base Styling
+   =============================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Roboto', sans-serif;
+  background-color: #f5f5f5;
+}
+
+/* ===============================
+   Doctor Card Actions
+   =============================== */
+.card-actions {
+  background-color: #244557;
+  padding: 10px;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.card-actions:hover {
+  background-color: #1c3745;
+}
+
+/* ===============================
+   Ripple Overlay Effect
+   =============================== */
+.ripple-overlay {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  background-color: #1c3745;
+  border-radius: 50%;
+  z-index: 9999;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 1s ease-out, opacity 1s ease;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.ripple-overlay.active {
+  transform: translate(-50%, -50%) scale(150);
+  opacity: 1;
+}
+
+/* ===============================
+   Modal for Appointment Booking
+   =============================== */
+.modalApp {
+  position: fixed;
+  bottom: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50%;
+  background: #ffffff;
+  padding: 20px;
+  z-index: 10000;
+  transition: bottom 1.5s ease-in;
+  box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 10px 10px 0 0;
+  text-align: center;
+}
+
+.modalApp.active {
+  bottom: 0;
+}
+
+.modalApp h2 {
+  margin: 20px 0;
+  font-size: 1.5rem;
+}
+
+/* ===============================
+   Form Fields inside Modal
+   =============================== */
+.modalApp input,
+.modalApp select {
+  display: block;
+  margin: 10px auto 40px auto;
+  padding: 10px;
+  width: 90%;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* ===============================
+   Confirm Booking Button
+   =============================== */
+.confirm-booking {
+  padding: 10px 20px;
+  background: #1c3745;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: filter 0.3s ease, background-color 0.3s ease;
+}
+
+.confirm-booking:hover {
+  filter: brightness(1.2);
+  background-color: #1c3745;
+}
+
+/* ===============================
+   Responsive Adjustments
+   =============================== */
+@media (max-width: 768px) {
+  .modalApp {
+    width: 90%;
+  }
+
+  .modalApp h2 {
+    font-size: 1.2rem;
+  }
+
+  .confirm-booking {
+    width: 100%;
+  }
+}

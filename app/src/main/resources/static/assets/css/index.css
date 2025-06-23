@@ -1,0 +1,262 @@
+/* this is the style sheet file for index.htlm  */
+
+/* 
+**Global Reset (`*`)**
+
+* Remove all default margin and padding.
+* Use `border-box` for sizing to include padding and border in element size.
+
+**Base (`html, body`)**
+
+* Set height to 100% for full viewport layout.
+* Use the `'Roboto'` sans-serif font for modern, clean typography.
+
+**Layout Wrapper (`.wrapper`)**
+
+* Use a vertical flexbox layout.
+* Ensure the wrapper covers at least the full height of the screen (`min-height: 100vh`).
+
+**Heading (`h2`)**
+
+* Set a large font size (`48px`) for prominence.
+* Add a bottom margin of `50px` for spacing.
+* Use a dark teal color (`#003e3e`).
+* Make the font bold and use a blended font stack (`'Alegreya', 'Roboto', sans-serif`) for elegant styling.
+
+**Main Section (`.main-content`)**
+
+* Allow the section to grow to fill space with `flex-grow: 1`.
+* Add `40px` of internal padding.
+* Center content both horizontally and vertically using `justify-content` and `align-items`.
+* Display items in a column direction.
+* Center all text.
+* Apply a full-screen background image with:
+
+  * `cover` size
+  * `center` positioning
+  * no repeat
+  * `fixed` attachment to keep image still during scroll
+
+**Buttons (`button`)**
+
+* Style with a teal green background (`#015c5d`) and white text.
+* Remove borders and round the corners (`12px`).
+* Use `10px 20px` padding and set width to `200px`.
+* Add a top margin of `10px` for spacing.
+* Enable pointer cursor and readable font size (`16px`).
+* On hover, change background color to bold red (`#A62B1F`).
+
+**Dashboard Buttons (`.dashboard-btn`)**
+
+* Use the same base green background (`#015c5d`) as the default button.
+* On hover, darken the background to deep teal (`#003e3e`) for visual feedback.
+ */
+/* ==============================
+   Global Reset & Base Styles
+   ============================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Roboto', sans-serif;
+  background-color: #f4f7f9;
+  color: #333;
+}
+
+/* ==============================
+   Layout Wrappers
+   ============================== */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ==============================
+   Main Content
+   ============================== */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-image: url('../assets/img/background.jpg'); /* Replace with your actual path */
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  padding: 3rem 1rem;
+}
+
+/* ==============================
+   Headings and Buttons
+   ============================== */
+h2 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #2c3e50;
+  margin-bottom: 2rem;
+}
+
+button {
+  background-color: #3498db;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  margin: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #2980b9;
+}
+
+/* ==============================
+   Modal Styles
+   ============================== */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal > #modal-body {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+#closeModal {
+  background: crimson;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  float: right;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#closeModal:hover {
+  background: darkred;
+}
+
+/* ==============================
+   Header and Footer
+   ============================== */
+#header, .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.header .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.header nav a {
+  margin-left: 1rem;
+  color: #2c3e50;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.header nav a:hover {
+  color: #3498db;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ecf0f1;
+  padding: 1rem;
+  font-size: 0.9rem;
+  color: #7f8c8d;
+}
+
+/* ==============================
+   Interactive Elements
+   ============================== */
+input, select, textarea {
+  padding: 0.6rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin: 0.5rem 0;
+  width: 100%;
+  font-size: 1rem;
+  transition: border 0.3s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: #3498db;
+  outline: none;
+}
+
+.dashboard-btn {
+  background-color: #2ecc71;
+  color: white;
+  font-weight: bold;
+}
+
+.dashboard-btn:hover {
+  background-color: #27ae60;
+}
+
+.input-field {
+  margin-bottom: 1rem;
+}
+
+.select-dropdown {
+  appearance: none;
+  background: #fff url('../assets/img/dropdown-arrow.svg') no-repeat right center;
+  background-size: 1rem;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header, .footer {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  button {
+    width: 100%;
+    max-width: 300px;
+  }
+}
