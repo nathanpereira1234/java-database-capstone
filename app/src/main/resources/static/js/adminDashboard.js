@@ -70,3 +70,104 @@
 
     If saving fails, show an error message
 */
+import { openModal } from "../components/modals.js";
+import { getDoctors, filterDoctors, saveDoctor } from "../services/doctorServices.js";
+import { createDoctorCard } from "../components/doctorCard.js";
+
+// Load doctors when the page loads
+window.onload = () => {
+  loadDoctorCards();
+
+  const addBtn = document.getElementById("addDocBtn");
+  if (addBtn) {
+    addBtn.addEventListener("click", () => openModal("addDoctor"));
+  }
+
+  document.getElementById("searchBar").addEventListener("input", filterDoctorsOnChange);
+  document.getElementById("filterTime").addEventListener("change", filterDoctorsOnChange);
+  document.getElementById("filterSpecialty").addEventListener("change", filterDoctorsOnChange);
+
+  const addDoctorForm = document.getElementById("addDoctorForm");
+  if (addDoctorForm) {
+    addDoctorForm.addEventListener("submit", adminAddDoctor);
+  }
+};
+
+// Load and display all doctors
+async function loadDoctorCards() {
+  const contentDiv = document.getElementById("content");
+  contentDiv.innerHTML = "";
+
+  try {
+    const doctors = await getDoctors();
+    renderDoctorCards(doctors);
+  } catch (err) {
+    console.error("Failed to load doctors:", err);
+    contentDiv.innerHTML = "<p class='noPatientRecord'>Unable to load doctors.</p>";
+  }
+}
+
+// Render a list of doctor cards
+function renderDoctorCards(doctors) {
+  const contentDiv = document.getElementById("content");
+  contentDiv.innerHTML = "";
+
+  if (!doctors || doctors.length === 0) {
+    contentDiv.innerHTML = "<p class='noPatientRecord'>No doctors found.</p>";
+    return;
+  }
+
+  doctors.forEach(doctor => {
+    const card = createDoctorCard(doctor);
+    contentDiv.appendChild(card);
+  });
+}
+
+// Filter/search logic
+async function filterDoctorsOnChange() {
+  const name = document.getElementById("searchBar").value.trim();
+  const time = document.getElementById("filterTime").value;
+  const specialty = document.getElementById("filterSpecialty").value;
+
+  try {
+    const filtered = await filterDoctors(name, time, specialty);
+    renderDoctorCards(filtered);
+  } catch (err) {
+    console.error("Filter failed:", err);
+    document.getElementById("content").innerHTML = "<p class='noPatientRecord'>Something went wrong while filtering doctors.</p>";
+  }
+}
+
+// Admin adds a doctor
+async function adminAddDoctor(e) {
+  e.preventDefault();
+
+  const token = localStorage.getItem("token");
+  if (!token) {
+    alert("You must be logged in as admin.");
+    return;
+  }
+
+  const name = document.getElementById("docName").value.trim();
+  const email = document.getElementById("docEmail").value.trim();
+  const password = document.getElementById("docPassword").value;
+  const mobile = document.getElementById("docMobile").value.trim();
+  const specialty = document.getElementById("docSpecialty").value;
+  const availability = Array.from(document.querySelectorAll('input[name="availability"]:checked')).map(cb => cb.value);
+
+  const doctor = { name, email, password, mobile, specialty, availability };
+
+  try {
+    const response = await saveDoctor(doctor, token);
+    if (response.success) {
+      alert("Doctor added successfully!");
+      document.getElementById("modal").classList.remove("active");
+      await loadDoctorCards();
+    } else {
+      alert("Failed to add doctor: " + response.message);
+    }
+  } catch (err) {
+    console.error("Add Doctor Error:", err);
+    alert("Something went wrong while adding doctor.");
+  }
+}

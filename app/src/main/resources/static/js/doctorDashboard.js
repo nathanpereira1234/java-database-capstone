@@ -52,3 +52,67 @@
     - Call renderContent() (assumes it sets up the UI layout)
     - Call loadAppointments() to display today's appointments by default
 */
+import { getAllAppointments } from "./services/appointmentRecordService.js";
+import { createPatientRow } from "./components/patientRows.js";
+
+// Global variables
+let selectedDate = new Date().toISOString().split("T")[0];
+let token = localStorage.getItem("token");
+let patientName = null;
+
+const tableBody = document.getElementById("patientTableBody");
+const searchInput = document.getElementById("searchBar");
+const todayButton = document.getElementById("todayButton");
+const datePicker = document.getElementById("datePicker");
+
+// Search Bar Event
+searchInput.addEventListener("input", () => {
+  patientName = searchInput.value.trim() || "null";
+  loadAppointments();
+});
+
+// "Today's Appointments" Button Event
+todayButton.addEventListener("click", () => {
+  selectedDate = new Date().toISOString().split("T")[0];
+  datePicker.value = selectedDate;
+  loadAppointments();
+});
+
+// Date Picker Event
+datePicker.addEventListener("change", () => {
+  selectedDate = datePicker.value;
+  loadAppointments();
+});
+
+// Load Appointments Function
+async function loadAppointments() {
+  tableBody.innerHTML = ""; // Clear table content
+
+  try {
+    const appointments = await getAllAppointments(selectedDate, patientName, token);
+
+    if (!appointments || appointments.length === 0) {
+      const row = document.createElement("tr");
+      row.innerHTML = `<td colspan="5" class="noPatientRecord">No appointments found for this date.</td>`;
+      tableBody.appendChild(row);
+      return;
+    }
+
+    appointments.forEach((appt) => {
+      const row = createPatientRow(appt);
+      tableBody.appendChild(row);
+    });
+
+  } catch (error) {
+    console.error("Error loading appointments:", error);
+    const row = document.createElement("tr");
+    row.innerHTML = `<td colspan="5" class="noPatientRecord">Error loading appointments. Please try again later.</td>`;
+    tableBody.appendChild(row);
+  }
+}
+
+// Initial Page Load
+document.addEventListener("DOMContentLoaded", () => {
+  datePicker.value = selectedDate;
+  loadAppointments();
+});
