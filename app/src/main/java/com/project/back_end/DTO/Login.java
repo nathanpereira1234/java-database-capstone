@@ -1,35 +1,29 @@
 package com.project.back_end.DTO;
 
 
-public class LoginRequestDTO {
 
+public class Login {
+    
     private String email;
     private String password;
 
-    // Default constructor (needed for deserialization)
-    public LoginRequestDTO() {}
+    //getters and setters
 
-    // Parameterized constructor (optional for convenience)
-    public LoginRequestDTO(String email, String password) {
-        this.email = email;
-        this.password = password;
-    }
-
-    // Getters
     public String getEmail() {
         return email;
     }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
 
     public String getPassword() {
         return password;
     }
 
-    // Setters
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public void setPassword(String password) {
         this.password = password;
     }
+
 }
